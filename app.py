@@ -6,7 +6,8 @@ import streamlit as st
 from model import load_data, preprocess_data, train_models
 from frontend import (
     set_page_config, apply_custom_css, render_sidebar, render_hero,
-    render_tab_eda, render_tab_pipeline, render_tab_predict, render_tab_metrics
+    render_tab_eda, render_tab_pipeline, render_tab_predict, render_tab_metrics,
+    render_tab_experiments
 )
 
 # ─── PAGE CONFIG ────────────────────────────────────────────────────────────
@@ -28,7 +29,7 @@ render_sidebar(df, list(trained_models.keys()))
 render_hero()
 
 # ─── TABS ────────────────────────────────────────────────────────────────────
-tab1, tab2, tab3, tab4 = st.tabs(["🔍  EDA", "⚙️  Pipeline", "🎯  Predict", "📊  Metrics"])
+tab1, tab2, tab3, tab4, tab5 = st.tabs(["🔍  EDA", "⚙️  Pipeline", "🎯  Predict", "📊  Metrics", "🧪  Experiments"])
 
 with tab1:
     render_tab_eda(df)
@@ -41,3 +42,6 @@ with tab3:
 
 with tab4:
     render_tab_metrics(results)
+
+with tab5:
+    render_tab_experiments(df)
