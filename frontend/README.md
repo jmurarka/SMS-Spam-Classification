@@ -1,8 +1,10 @@
-# Frontend Module - Modular Structure Guide
+# Frontend Module Documentation
 
-## Overview
+**Overview:** Modular Streamlit UI components for the SMS Spam Classifier. Each tab is a separate, independently debuggable module imported through a clean central interface.
 
-The frontend code has been refactored into a modular, organized structure with separate files for each component. This makes the codebase more maintainable, debuggable, and scalable.
+**Current Tabs:** 4 main tabs (EDA, Predict, Metrics, Experiments) + shared components (Sidebar, Hero)
+
+---
 
 ## Directory Structure
 
@@ -12,10 +14,9 @@ frontend/
 ├── styles.py            ← Page config & CSS styling
 ├── common.py            ← Sidebar & hero banner
 ├── eda.py               ← Tab 1: Exploratory Data Analysis
-├── pipeline.py          ← Tab 2: Preprocessing Pipeline
-├── predict.py           ← Tab 3: Real-time Prediction
-├── metrics.py           ← Tab 4: Model Metrics Analysis
-├── experiments.py       ← Tab 5: Experiments Framework
+├── predict.py           ← Tab 2: Real-time Prediction
+├── metrics.py           ← Tab 3: Model Metrics Analysis
+├── experiments.py       ← Tab 4: Experiments Framework
 └── README.md            ← This file
 ```
 
@@ -77,26 +78,7 @@ frontend/
 
 ---
 
-### 4. **pipeline.py** - Preprocessing Pipeline Tab
-
-**Exports:**
-
-- `render_tab_pipeline(df)` - Renders pipeline documentation and feature engineering info
-
-**Purpose:** Explains the text preprocessing and feature engineering process
-
-**Sections:**
-
-- Text cleaning steps (ASCII art pipeline)
-- Feature engineering table (10 features with descriptions)
-- TF-IDF parameters explanation
-- Train/test split ratios
-
-**Note:** Educational/informational tab - no calculations here
-
----
-
-### 5. **predict.py** - Real-time SMS Prediction Tab
+### 4. **predict.py** - Real-time SMS Prediction Tab
 
 **Exports:**
 
@@ -118,7 +100,7 @@ frontend/
 
 ---
 
-### 6. **metrics.py** - Model Performance Analysis Tab
+### 5. **metrics.py** - Model Performance Analysis Tab
 
 **Exports:**
 
@@ -139,7 +121,7 @@ frontend/
 
 ---
 
-### 7. **experiments.py** - Comprehensive Experiments Tab
+### 6. **experiments.py** - Comprehensive Experiments Tab
 
 **Exports:**
 
@@ -168,7 +150,7 @@ frontend/
 
 ---
 
-### 8. ****init**.py** - Module Exports
+### 7. \***\*init**.py\*\* - Module Exports
 
 **Purpose:** Centralizes all imports so app.py can import everything cleanly
 
@@ -181,7 +163,6 @@ from frontend import (
     render_sidebar,
     render_hero,
     render_tab_eda,
-    render_tab_pipeline,
     render_tab_predict,
     render_tab_metrics,
     render_tab_experiments
@@ -201,7 +182,6 @@ from frontend import (
     render_sidebar,
     render_hero,
     render_tab_eda,
-    render_tab_pipeline,
     render_tab_predict,
     render_tab_metrics,
     render_tab_experiments
@@ -220,12 +200,11 @@ render_sidebar(df, list(trained_models.keys()))
 render_hero()
 
 # Render tabs
-tab1, tab2, tab3, tab4, tab5 = st.tabs([...])
+tab1, tab2, tab3, tab4 = st.tabs([...])
 with tab1: render_tab_eda(df)
-with tab2: render_tab_pipeline(df)
-with tab3: render_tab_predict(trained_models)
-with tab4: render_tab_metrics(results)
-with tab5: render_tab_experiments(df)
+with tab2: render_tab_predict(trained_models)
+with tab3: render_tab_metrics(results)
+with tab4: render_tab_experiments(df)
 ```
 
 ---
@@ -239,22 +218,17 @@ with tab5: render_tab_experiments(df)
    - Data processing: wordcloud generation
    - Check `backend.py` for helper functions
 
-2. **Pipeline info incorrect?** → Check `frontend/pipeline.py`
-   - Feature engineering table
-   - TF-IDF parameter explanations
-   - No dependencies needed
-
-3. **Prediction not working?** → Check `frontend/predict.py`
+2. **Prediction not working?** → Check `frontend/predict.py`
    - User input handling
    - Model selection logic
    - Check `backend.predict_message()` function
 
-4. **Metrics display errors?** → Check `frontend/metrics.py`
+3. **Metrics display errors?** → Check `frontend/metrics.py`
    - ROC curve generation
    - Confusion matrix heatmap
    - Classification report parsing
 
-5. **Experiments failing?** → Check `frontend/experiments.py`
+4. **Experiments failing?** → Check `frontend/experiments.py`
    - Check `model.run_all_experiments()`
    - Check data preprocessing in `model.py`
    - Log output from `_display_experiment_results()`
@@ -325,28 +299,6 @@ To add a new tab:
 
 ---
 
-## Migration Notes
-
-**Old Structure:**
-
-- Single `frontend.py` with 1000+ lines
-- All tabs mixed together
-
-**New Structure:**
-
-- One file per logical component
-- Clear separation of concerns
-- Easier to test and debug
-- Better code organization
-
-**No Breaking Changes:**
-
-- `app.py` imports remain the same
-- All functionality preserved
-- Same UI/UX experience
-
----
-
 ## Performance Tips
 
 1. **Use Streamlit caching** for expensive operations
@@ -376,7 +328,6 @@ To add a new tab:
 | Change colors        | styles.py      | apply_custom_css()       |
 | Fix sidebar          | common.py      | render_sidebar()         |
 | EDA bugs             | eda.py         | render_tab_eda()         |
-| Pipeline info        | pipeline.py    | render_tab_pipeline()    |
 | Prediction issues    | predict.py     | render_tab_predict()     |
 | Metrics display      | metrics.py     | render_tab_metrics()     |
 | Experiments problems | experiments.py | render_tab_experiments() |

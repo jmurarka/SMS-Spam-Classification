@@ -14,7 +14,7 @@ def render_sidebar(df, models_list):
                         background:linear-gradient(135deg,#00f5a0,#00d9f5);
                         -webkit-background-clip:text; -webkit-text-fill-color:transparent;
                         background-clip:text;">SpamGuard</div>
-            <div style="font-size:0.72rem; color:#64748b; margin-top:4px;">SMS Classifier · ML Project</div>
+            <div style="font-size:0.72rem; color:#cbd5e1; margin-top:4px;">SMS Classifier · ML Project</div>
         </div>
         """, unsafe_allow_html=True)
 
@@ -25,18 +25,7 @@ def render_sidebar(df, models_list):
 
         st.markdown("**🤖 Models**")
         for m in models_list:
-            st.markdown(f"<div style='font-size:0.8rem; color:#94a3b8; padding:2px 0;'>▸ {m}</div>", unsafe_allow_html=True)
-
-        st.markdown("<br>", unsafe_allow_html=True)
-        st.markdown("**📋 Project Rules**")
-        st.markdown("""
-        <div style="font-size:0.75rem; color:#64748b; line-height:1.7;">
-        ✅ sklearn pipeline<br>
-        ✅ No GitHub clones<br>
-        ✅ UCI dataset<br>
-        ✅ Built from scratch
-        </div>
-        """, unsafe_allow_html=True)
+            st.markdown(f"<div style='font-size:0.8rem; color:#e2e8f0; padding:2px 0;'>▸ {m}</div>", unsafe_allow_html=True)
 
 
 def render_hero():

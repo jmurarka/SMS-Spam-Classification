@@ -29,7 +29,7 @@ def apply_custom_css():
         --danger: #ff4d6d;
         --warn: #ffd166;
         --text: #e2e8f0;
-        --muted: #64748b;
+        --muted: #a0aec0;
         --border: #1e293b;
     }
 
@@ -55,7 +55,7 @@ def apply_custom_css():
     }
     .stTabs [data-baseweb="tab"] {
         background: transparent !important;
-        color: var(--muted) !important;
+        color: #e2e8f0 !important;
         border-radius: 8px !important;
         font-family: 'JetBrains Mono', monospace !important;
         font-size: 0.8rem !important;

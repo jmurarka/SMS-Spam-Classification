@@ -1,34 +1,15 @@
 # 🛡️ SpamGuard — SMS Spam Classifier
 
-A production-grade Streamlit web app for SMS spam classification using NLP and multiple ML models.
+A production-grade Streamlit web app for SMS spam classification using Naive Bayes models with TF-IDF text preprocessing.
 
 ---
 
 ## 📦 Dataset
 
-**Name:** UCI SMS Spam Collection Dataset  
-**Source:** [UCI ML Repository](https://archive.ics.uci.edu/dataset/228/sms+spam+collection)  
-**Kaggle Mirror:** [https://www.kaggle.com/datasets/uciml/sms-spam-collection-dataset](https://www.kaggle.com/datasets/uciml/sms-spam-collection-dataset)
+**UCI SMS Spam Collection Dataset**  
+Source: [UCI ML Repository](https://archive.ics.uci.edu/dataset/228/sms+spam+collection)
 
-### Download Instructions
-
-**Option A — Kaggle (Recommended):**
-
-1. Go to https://www.kaggle.com/datasets/uciml/sms-spam-collection-dataset
-2. Click **Download** (requires free Kaggle account)
-3. Extract `spam.csv` to the project folder
-
-**Option B — UCI Repository (Auto-loaded):**
-The app automatically fetches the dataset from the UCI ML Repository at runtime.
-No manual download needed if you have internet access.
-
-**Option C — Kaggle CLI:**
-
-```bash
-pip install kaggle
-kaggle datasets download -d uciml/sms-spam-collection-dataset
-unzip sms-spam-collection-dataset.zip
-```
+The dataset is included in the project structure at `data/SMSSpamCollection`
 
 ---
 
@@ -51,13 +32,12 @@ App will open at: **http://localhost:8501**
 
 ## 📋 Features
 
-| Tab            | Contents                                                                                               |
-| -------------- | ------------------------------------------------------------------------------------------------------ |
-| 🔍 EDA         | Class distribution, char length histograms, box plots, word clouds, top-word bar charts                |
-| ⚙️ Pipeline    | Preprocessing steps, feature engineering table, TF-IDF parameters, train/test split info               |
-| 🎯 Predict     | Single-message classifier, confidence gauge, message stats, batch CSV upload                           |
-| 📊 Metrics     | Model comparison table, bar charts, confusion matrix, ROC curve, classification report                 |
-| 🧪 Experiments | **NEW:** Comprehensive ML experimentation framework with 3 main experiments + 14 hyperparameter tweaks |
+| Tab            | Contents                                                                                      |
+| -------------- | --------------------------------------------------------------------------------------------- |
+| 🔍 EDA         | Class distribution, char length histograms, box plots, word clouds, top-word bar charts       |
+| 🎯 Predict     | Single-message classifier, confidence gauge, message stats, batch CSV upload                  |
+| 📊 Metrics     | Model comparison table, bar charts, confusion matrix, ROC curve, classification report        |
+| 🧪 Experiments | Comprehensive ML experimentation framework with 3 main experiments + 14 hyperparameter tweaks |
 
 ---
 
@@ -67,9 +47,9 @@ The app now includes a complete experimentation framework for systematic model c
 
 ### Main Experiments (3)
 
-1. **Multinomial NB + CountVectorizer + Basic** - Baseline approach
-2. **Bernoulli NB + Binary BoW + Stopword Removal** - Binary features with preprocessing
-3. **Complement NB + TF-IDF + Stemming** - Optimized for imbalanced data
+1. **Multinomial NB + TF-IDF + Basic** - Baseline with word frequency weighting
+2. **Gaussian NB + TF-IDF + Dense Conversion** - Dense matrix transformation for Gaussian
+3. **Bernoulli NB + TF-IDF + Alpha Smoothing** - Binary feature support with smoothing
 
 ### Hyperparameter Tweaks (14)
 
@@ -90,24 +70,38 @@ The app now includes a complete experimentation framework for systematic model c
 
 ## 🤖 Models
 
-| Model               | Notes                               |
-| ------------------- | ----------------------------------- |
-| Multinomial NB      | Fast baseline, good for word counts |
-| Bernoulli NB        | Binary features, presence/absence   |
-| Complement NB       | Better for imbalanced datasets      |
-| Logistic Regression | Interpretable, competitive baseline |
-| Linear SVM          | High precision spam detection       |
-| Random Forest       | Ensemble, robust to overfitting     |
+| Model          | Notes                                    |
+| -------------- | ---------------------------------------- |
+| Multinomial NB | Fast baseline, optimized for word counts |
+| Gaussian NB    | Converts sparse TF-IDF to dense features |
+| Bernoulli NB   | Binary feature support, alpha-smoothing  |
 
 ---
 
 ## 📁 Project Structure
 
 ```
-spam_classifier/
-├── app.py              ← Main Streamlit application
-├── requirements.txt    ← Python dependencies
-└── README.md           ← This file
+SMS-Spam-Classification/
+├── app.py                      ← Main Streamlit application (entry point)
+├── model.py                    ← ML models & training logic
+├── backend.py                  ← Backend utilities & analytics
+├── experiments.py              ← Experimentation framework
+├── requirements.txt            ← Python dependencies
+├── README.md                   ← This file
+├── EXPERIMENTS.md              ← Detailed experiments guide
+│
+├── data/
+│   └── SMSSpamCollection       ← UCI SMS Spam Collection dataset
+│
+└── frontend/                   ← UI components package
+    ├── __init__.py             ← Module exports
+    ├── styles.py               ← Page config & global CSS
+    ├── common.py               ← Sidebar & hero banner
+    ├── eda.py                  ← Exploratory Data Analysis tab
+    ├── predict.py              ← Prediction tab
+    ├── metrics.py              ← Model metrics tab
+    ├── experiments.py          ← Experiments framework tab
+    └── README.md               ← Frontend documentation
 ```
 
 ---
@@ -115,9 +109,9 @@ spam_classifier/
 ## 📚 Report Checklist (Submission)
 
 - [x] **EDA Findings**: Class imbalance (87% ham / 13% spam), spam messages are ~3× longer, use more digits, capitals, and promotional language
-- [x] **Model Choice Justification**: Multinomial NB is the classic baseline for bag-of-words text; LR adds regularization; LinearSVC maximizes margin; RF adds ensemble power
+- [x] **Model Choice Justification**: Three Naive Bayes variants for robust text classification - Multinomial NB for word frequencies, Gaussian NB for dense features, Bernoulli NB for binary presence/absence
 - [x] **Preprocessing Pipeline**: Lowercase → URL normalization → digit removal → stopword removal → Porter stemming → TF-IDF (unigrams + bigrams)
-- [x] **Metrics Summary**: All 4 models achieve >97% accuracy; F1 scores reported per class; confusion matrix and ROC curve available per model
+- [x] **Metrics Summary**: All 3 models achieve >95% accuracy; F1 scores reported per class; confusion matrix and ROC curve available per model
 
 ---
 
